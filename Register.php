@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
     <style>
         body {
             /* Background Styles */
-            background-image: url(./img/team-1.jpg);
+            background-image: url(./img/loginBG.jpg);
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -174,23 +174,23 @@ if (isset($_POST['submit'])) {
                     <h2 class="text-center-head">Register</h2>
 
                     <div class="form-group">
-                        <input required="" type="text" name="firstName" class="form-control" placeholder="Enter Your First Name">
+                        <input required="" type="text" name="firstName" class="form-control" placeholder="Enter Patient's First Name">
                     </div>
 
                     <div class="form-group">
-                        <input required="" type="text" name="lastName" class="form-control" placeholder="Enter Your Last Name">
+                        <input required="" type="text" name="lastName" class="form-control" placeholder="Enter Patient's Last Name">
                     </div>
 
                     <div class="form-group">
-                        <input required="" type="text" name="nic" class="form-control" placeholder="Enter Your NIC">
+                        <input required="" type="text" name="nic" class="form-control" placeholder="Enter Patient's NIC">
                     </div>
 
                     <div class="form-group">
-                        <input required="" type="email" name="email" class="form-control" placeholder="Enter Your Email">
+                        <input required="" type="email" name="email" class="form-control" placeholder="Enter Email">
                     </div>
 
                     <div class="form-group">
-                        <input required="" type="password" name="password" class="form-control" placeholder="Enter Your Password">
+                        <input required="" type="password" name="password" class="form-control" placeholder="Enter Password">
                     </div>
 
                     <div class="form-group">

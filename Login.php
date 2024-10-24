@@ -9,14 +9,14 @@ session_start();
 // Checking if the form is submitted
 if (isset($_POST['submit'])) {
 
-    // Sanitizing and escaping the email input
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    // Sanitizing and escaping the NIC input
+    $NIC = mysqli_real_escape_string($conn, $_POST['NIC']);
 
     // Encrypting the password using the md5 hash function
     $pass = md5($_POST['password']);
 
-    // Query to check if the email and password match an entry in the 'staff_login' table
-    $select = " SELECT * FROM user WHERE email = '$email' && password = '$pass' ";
+    // Query to check if the NIC and password match an entry in the 'staff_login' table
+    $select = " SELECT * FROM user WHERE NIC = '$NIC' && password = '$pass' ";
 
     $result = mysqli_query($conn, $select);
 
@@ -28,24 +28,24 @@ if (isset($_POST['submit'])) {
         // Fetching the data from the result
         $row = mysqli_fetch_array($result);
 
-        // Storing email in the session
-        $_SESSION['user_email'] = $row['email'];
+        // Storing NIC in the session
+        $_SESSION['user_NIC'] = $row['NIC'];
 
 
         // Checking the user types
-        if ($row['usertype'] == 'admin') {  //admin
+        if ($row['usertype'] == 'Admin') {  //admin
             $_SESSION['admin_name'] = $row['LastName'];
-            header('location: ./Admin/admin.html');
-        } elseif ($row['usertype'] == 'client') {   //client
+            header('location: ./Admin/index.html');
+        } elseif ($row['usertype'] == 'Client') {   //client
             $_SESSION['client_name'] = $row['LastName'];
-            header('location: ./Client/client.html');
-        } elseif ($row['usertype'] == 'doctor') {
+            header('location: ./Client/index.php');
+        } elseif ($row['usertype'] == 'Doctor') {
             $_SESSION['doctor_name'] = $row['LastName'];  //Doctor
-            header('location: ./Doctor/doctor.html');
+            header('location: ./Doctor/index.html');
         }
     } else {
         // If no matching rows were found, setting an error message
-        $error[] = '!!! Incorrect Email or Password !!!';
+        $error[] = '!!! Incorrect NIC or Password !!!';
     }
 };
 ?>
@@ -60,15 +60,13 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Now</title>
 
-    <!-- Use the same CSS from the user login -->
-    <link rel="stylesheet" href="path-to-user-login-css.css">
     <!-- fa fa icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
         body {
             /* Background Styles */
-            background-image: url(./img/team-1.jpg);
+            background-image: url(./img/loginBG.jpg);
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -261,7 +259,7 @@ if (isset($_POST['submit'])) {
 
 
                     <div class="form-group">
-                        <input required="" type="text" name="email" class="form-control" placeholder="Enter Your Email">
+                        <input required="" type="text" name="NIC" class="form-control" placeholder="Enter Your NIC">
                     </div>
                     <div class="form-group">
                         <input required="" type="password" name="password" class="form-control" placeholder="Enter Your Password">
@@ -273,7 +271,7 @@ if (isset($_POST['submit'])) {
                         <input class="form-control button" type="submit" name="submit" value="Sign in">
                     </div>
 
-                    <div class="signup-link">* Forgot your Password? <span style="color:red;"> Please Contact Admin </span></div>
+                    <div class="signup-link"> <a href="Register.php">Click here to Register</a> </div>
 
                     <div class="homeIcon">
                         <a href="./index.html"><i class="fa fa-home" style="font-size: 36px"></i></a>
