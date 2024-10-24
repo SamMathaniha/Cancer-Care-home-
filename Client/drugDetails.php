@@ -11,7 +11,32 @@ if (isset($_SESSION['client_name'])) {
     header('location: ../Login.php');
     exit();
 }
+
+
+
+// Get the drug ID from the URL
+$drugID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// Fetch drug details from the database
+$sql = "SELECT Name, Price, Type, Description, Image FROM drugs WHERE drugID = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $drugID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if a drug was found
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+} else {
+    echo "<p>Drug not found.</p>";
+    exit;
+}
+
+// Close the database connection
+$stmt->close();
+$conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
@@ -56,6 +81,32 @@ if (isset($_SESSION['client_name'])) {
 
     <!-- Template Stylesheet -->
     <link href="../css/style.css" rel="stylesheet" />
+
+    <style>
+        .details-container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        .details-container img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .details-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .details-container p {
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
@@ -174,44 +225,22 @@ if (isset($_SESSION['client_name'])) {
 
 
 
-    <!-- Medications Section Start -->
-    <div class="container py-5">
-        <h2 class="text-center mb-4">Medications</h2>
+    <div class="details-container container">
         <div class="row">
-            <?php
-
-            // Fetch data from the 'drugs' table, including the Image column
-            $sql = "SELECT drugID, Name, Price, Type, Image FROM drugs";
-            $result = $conn->query($sql);
-
-            // Check if there are results
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-            ?>
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <!-- Display the image from the database -->
-                            <img src="<?php echo $row['Image']; ?>" class="card-img-top" alt="<?php echo $row['Name']; ?>">
-                            <div class="card-body text-center">
-                                <h5 class="card-title"><?php echo $row['Name']; ?></h5>
-                                <p class="card-text"><?php echo "$" . number_format($row['Price'], 2); ?></p>
-                                <a href="#" class="btn btn-primary">Add to Cart</a>
-                                <a href="drugDetails.php?id=<?php echo $row['drugID']; ?>" class="btn btn-success">Details</a>
-                            </div>
-                        </div>
-                    </div>
-            <?php
-                }
-            } else {
-                echo "<p>No medications available.</p>";
-            }
-
-            // Close the database connection
-            $conn->close();
-            ?>
+            <div class="col-md-6">
+                <img src="<?php echo $row['Image']; ?>" alt="<?php echo $row['Name']; ?>" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h1><?php echo $row['Name']; ?></h1>
+                <p><strong>Price:</strong> <?php echo "$" . number_format($row['Price'], 2); ?></p>
+                <p><strong>Type:</strong> <?php echo $row['Type']; ?></p>
+                <p><strong>Description:</strong> <?php echo $row['Description']; ?></p>
+                <a href="Medications.php" class="btn btn-primary">Back to Medications</a> <!-- Link back to the medications page -->
+            </div>
         </div>
     </div>
-    <!-- Medications Section End -->
+
+
 
 
 
