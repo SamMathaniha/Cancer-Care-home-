@@ -177,7 +177,13 @@ if (isset($_SESSION['client_name'])) {
     <!-- Medications Section Start -->
     <div class="container py-5">
         <h2 class="text-center mb-4">Medications</h2>
-        <div class="row">
+
+        <!-- Search Bar -->
+        <div class="mb-4 text-center">
+            <input type="text" id="searchInput" placeholder="Search for medications..." class="form-control w-50 mx-auto">
+        </div>
+
+        <div class="row" id="medicationsList">
             <?php
 
             // Fetch data from the 'drugs' table, including the Image column
@@ -188,7 +194,7 @@ if (isset($_SESSION['client_name'])) {
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
             ?>
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3 mb-4 medication-item">
                         <div class="card">
                             <!-- Display the image from the database -->
                             <img src="<?php echo $row['Image']; ?>" class="card-img-top" alt="<?php echo $row['Name']; ?>">
@@ -212,6 +218,7 @@ if (isset($_SESSION['client_name'])) {
         </div>
     </div>
     <!-- Medications Section End -->
+
 
 
 
@@ -315,6 +322,7 @@ if (isset($_SESSION['client_name'])) {
     <script src="../lib/tempusdominus/js/moment.min.js"></script>
     <script src="../lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="../js/medicationSearchFilter.js"></script>
 
     <!-- Template Javascript -->
     <script src="../js/main.js"></script>
